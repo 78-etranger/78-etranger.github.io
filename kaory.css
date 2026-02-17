@@ -1,0 +1,332 @@
+/* Styles specific to kaory.html to show the fixed thumb2
+   This ensures the thumbnail is visible on the standalone page
+   without depending on the index.js slide logic. */
+
+#thumb2-fixed {
+  position: fixed;
+  left: 5vw;
+  top: 5vh;
+  width: 18vw;
+  height: auto;
+  z-index: 9999;
+  display: block;
+  pointer-events: auto; /* allow clicks */
+  opacity: 1;
+  cursor: pointer;
+}
+
+/* ensure the image fills the anchor and remains responsive */
+#thumb2-fixed img { display: block; width: 100%; height: auto; }
+
+/* Use local Noto Sans JP Variable on this page and expose simple weight vars
+   These defaults preserve current appearance but allow easy tuning. */
+:root {
+  --noto-variable-stack: 'Noto Sans JP Variable', 'Noto Sans JP', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --kaory-year-wght: 100;
+  --kaory-number-wght: 300;
+  --kaory-type-wght: 100;
+  --kaory-desc-wght: 300;
+}
+
+body {
+  font-family: var(--noto-variable-stack);
+}
+
+/* Small screens: reduce thumbnail size (use rem instead of px) */
+@media (max-width: 45rem) {
+  #thumb2-fixed { left: 3vw; top: 3vh; width: 28vw; }
+}
+
+main {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  /* remove top padding so the main image can sit at the very top of the viewport;
+     keep horizontal/bottom padding for content breathing */
+  padding: 0 1.5rem 1.5rem;
+  color: var(--text-color, #f3f3f3);
+}
+
+main img {
+  width: 100vw;
+  max-width: 100vw;
+  height: auto;
+  display: block;
+  margin: 0; /* align to left edge */
+  position: relative;
+  left: 0;
+  z-index: 1; /* lower than #thumb2-fixed (9999) so thumb appears on top */
+}
+
+main p {
+  max-width: 90vw;
+  margin: 1.125rem auto 0; /* 18px -> 1.125rem */
+  color: var(--text-color, #f3f3f3);
+}
+
+/* Styles for the YEAR text — customizable via CSS variables */
+/* container for the YEAR + number so we can position number relative to YEAR */
+.kaory-labels {
+  position: relative;
+  display: inline-block;
+  padding-left: 10vw; /* moved further right */
+  margin-top: 8vh; /* move labels further down the page */
+}
+
+.kaory-year {
+  /* use CSS variables so the YEAR text can be adjusted easily */
+  --kaory-year-size: clamp(0.8rem, 1.4vw, 1.1rem);
+  --kaory-year-color: #d6d6d6;
+  font-size: var(--kaory-year-size) !important;
+  color: var(--kaory-year-color) !important;
+  text-align: left !important;
+  margin: 0.5rem 0 0 !important; /* 8px -> 0.5rem */
+  padding: 0.25rem 0 !important; /* 4px -> 0.25rem */
+  letter-spacing: 0.35vw !important; /* fixed px so spacing doesn't scale */
+  font-weight: 100;
+}
+
+/* shared properties for the small right-side label elements
+   (keep them grouped so individual rules only contain differentiators) */
+.kaory-number,
+.kaory-type,
+.kaory-desc {
+  text-align: left !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  font-weight: lighter !important;
+}
+
+/* 2026 label styling (above YEAR) — customizable via variables */
+.kaory-number {
+  --kaory-number-size: clamp(1rem, 3vw, 1.6rem);
+  --kaory-number-color: #ffffff;
+  font-size: var(--kaory-number-size) !important;
+  color: var(--kaory-number-color) !important;
+  letter-spacing: 0.5vw !important;
+  left: calc(100% + 1vw) !important; /* place to the right of YEAR */
+  top: 3rem !important; /* slightly lower than YEAR */
+}
+
+/* Apply variable-font 'wght' axis using the tuning variables above.
+   These only take effect if the loaded font supports the wght axis (Noto Variable does). */
+.kaory-year { font-variation-settings: 'wght' var(--kaory-year-wght); font-weight: var(--kaory-year-wght); }
+.kaory-number { font-variation-settings: 'wght' var(--kaory-number-wght); font-weight: var(--kaory-number-wght); }
+.kaory-type { font-variation-settings: 'wght' var(--kaory-type-wght); font-weight: var(--kaory-type-wght); }
+.kaory-desc { font-variation-settings: 'wght' var(--kaory-desc-wght); font-weight: var(--kaory-desc-wght); }
+
+/* Ensure these label elements actually use the variable Noto font for BOTH
+  Japanese and Latin glyphs — forces consistent weight/spacing behavior. */
+.kaory-year, .kaory-number, .kaory-type, .kaory-desc {
+  font-family: var(--noto-variable-stack) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* TYPE: placed to the right of YEAR at the same vertical baseline */
+.kaory-type {
+  --kaory-type-size: clamp(0.8rem, 1.4vw, 1.1rem);
+  --kaory-type-color: #d6d6d6;
+  font-size: var(--kaory-type-size) !important;
+  color: var(--kaory-type-color) !important;
+  letter-spacing: 0.35vw !important;
+  left: calc(100% + 40vw) !important; /* align just right of YEAR */
+  top: 0.5rem !important; /* align vertically with .kaory-year */
+}
+
+/* 嗅覚インタフェース: positioned under TYPE, keeping relative layout to TYPE */
+.kaory-desc {
+  --kaory-desc-size: clamp(1rem, 3vw, 1.6rem);
+  --kaory-desc-color: #ffffff;
+  font-size: var(--kaory-desc-size) !important;
+  color: var(--kaory-desc-color) !important;
+  letter-spacing: 0.5vw !important;
+  left: calc(100% + 45vw) !important; /* match TYPE horizontal position */
+  top: 3rem !important; /* placed below TYPE */
+  font-weight: 100;
+}
+
+/* Description block below the labels. Uses padding (not absolute positioning)
+   so it won't overlap the label elements. Expose variables for easy tuning. */
+:root {
+  --kaory-description-width: 80vw;
+  /*
+    Font size scales with the description width but stays within sensible bounds:
+    - min: 1rem (won't get too small)
+    - preferred: proportional to the width (so changing width affects size)
+    - max: 1.35rem (won't grow excessively)
+  */
+  --kaory-description-font-size: clamp(1rem, calc(var(--kaory-description-width) * 0.024), 1.35rem);
+  --kaory-description-color: #d6d6d6;
+  --kaory-description-line-height: 1.72;
+}
+
+.kaory-description {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin-left: 0; /* alignment handled by .kaory-content */
+  margin-top: 15vh; /* push down to avoid overlap */
+  margin-right: 0;
+  margin-bottom: 5vh;
+  color: var(--kaory-description-color);
+  font-size: var(--kaory-description-font-size);
+  line-height: var(--kaory-description-line-height);
+  z-index: 2;
+  letter-spacing: 0.2vw;
+  font-weight: 100;
+}
+
+/* Responsive video wrapper: keeps 16:9 aspect ratio and scales with container */
+.responsive-video {
+  max-width: 100%;
+  margin-left: 0; /* aligned by .kaory-content */
+  margin-right: 0;
+  margin-top: 10vh;
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+.responsive-video iframe {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%; border: 0;
+}
+
+/* Gallery thumbnails under video */
+.kaory-gallery {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 1rem;
+  max-width: 100%;
+  margin-left: 0; /* aligned by .kaory-content */
+  margin-right: 0;
+  margin-top: 1.25rem;
+}
+.kaory-gallery img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 720px) {
+  .kaory-gallery { gap: 0.6rem; max-width: 100%; margin-left: 0; margin-right: 0; }
+  .kaory-gallery img { width: 100%; max-width: none; }
+}
+
+/* Content wrapper aligns description, video and gallery horizontally */
+.kaory-content {
+  max-width: var(--kaory-description-width);
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+@media (max-width: 720px) {
+  .kaory-content { max-width: 88vw; margin-left: 6vw; margin-right: 6vw; }
+}
+
+/* Portrait / narrow screens: stack labels vertically in the desired order
+   HTML order is: .kaory-year, .kaory-type, .kaory-desc, .kaory-number
+   We visually reorder to: YEAR, 2026, TYPE, 嗅覚インタフェース */
+@media (orientation: portrait), (max-width: 720px) {
+  .kaory-labels {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 6vw;
+    margin-top: 6vh;
+    gap: 0.2rem; /* reduced overall gap for tighter stacking */
+  }
+
+  .kaory-year, .kaory-number, .kaory-type, .kaory-desc {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    margin: 0.3rem 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Portrait: increase letter-spacing to be twice the landscape spacing */
+  .kaory-year, .kaory-type { letter-spacing: 0.7vw !important; }
+  .kaory-number, .kaory-desc { letter-spacing: 1.0vw !important; }
+
+  /* tighten vertical spacing specifically between the pairs */
+  .kaory-year, .kaory-type { margin-bottom: 0.05rem !important; }
+  .kaory-number, .kaory-desc { margin-top: 0 !important; }
+
+  /* nudge TYPE and 嗅覚インタフェース slightly downward for better separation */
+  .kaory-type { margin-top: 2rem !important; }
+  .kaory-desc { margin-top: 0.35rem !important; }
+
+  /* visual order */
+  .kaory-year { order: 1; }
+  .kaory-number { order: 2; }
+  .kaory-type { order: 3; }
+  .kaory-desc { order: 4; }
+
+  /* adjust relative sizes for portrait so things stay readable */
+  .kaory-number, .kaory-desc { font-size: clamp(1.05rem, 4.vw, 2rem) !important; }
+  .kaory-type, .kaory-year { font-size: clamp(0.9rem, 3.2vw, 1.25rem) !important; }
+
+  /* make description sit closer below the labels in portrait */
+  .kaory-description {
+    margin-top: 2.5rem;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 88vw;
+    letter-spacing: 0.5vw;
+  }
+
+  .responsive-video {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 88vw;
+  }
+
+  /* make main image flush to the left edge in portrait */
+  main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  main > img {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: 0 !important;
+    left: 0 !important;
+    display: block;
+  }
+
+  /* make thumb2 same size as index portrait (match 30vw) */
+  #thumb2-fixed { width: 30vw !important; }
+}
+
+/* 009 BACK button (page-local) */
+.button009 { text-align: center; margin: 2.5rem 0 3.5rem; }
+.button009 a {
+  background: #eee;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 240px;
+  padding: 10px 25px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  text-decoration: none;
+  letter-spacing: 0.1vw;
+}
+.button009 a:hover {
+  background: #313131;
+  color: #FFF;
+  text-decoration: none;
+}

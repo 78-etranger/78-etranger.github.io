@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Project starter" />
+		<title>Yusaku Tsue Portfolio</title>
+		<link rel="icon" href="images/haru.png" type="image/png">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<div id="bg-overlay" aria-hidden="true"></div>
+			<a id="thumb2-fixed" href="#top" aria-label="Back to top">
+			  <img src="images/thumb2.png" alt="thumb2" />
+			</a>
+
+		<!-- Right-side burger/menu for portrait (hidden on desktop) -->
+		<div class="circle" aria-hidden="true"></div>
+		<div class="burger" aria-label="Menu" role="button" tabindex="0">
+			<div class="x"></div>
+			<div class="y"></div>
+			<div class="z"></div>
+		</div>
+
+		<div class="menu" aria-hidden="true">
+			<ul>
+				<li><a href="#top">TOP</a></li>
+				<li><a href="#kaory">WORKS</a></li>
+				<li><a href="#cap5">ABOUT</a></li>
+				<li><a href="mailto:big_fly_ysk3@icloud.com">CONTACT</a></li>
+			</ul>
+		</div>
+		<nav class="top-nav" aria-label="Primary">
+			<a href="#top">TOP</a>
+			<span class="sep">|</span>
+			<a href="#kaory">WORKS</a>
+			<span class="sep">|</span>
+			<a href="#cap5">ABOUT</a>
+			<span class="sep">|</span>
+			<a href="mailto:big_fly_ysk3@icloud.com">CONTACT</a>
+		</nav>
+        
+		<!-- Hero header: occupies first viewport so only title is visible initially -->
+		<header id="top" class="hero-header">
+			<div class="hero-inner">
+				<img src="images/thumb1.png" alt="thumb1" class="hero-thumb">
+			</div>
+			<!-- scroll down indicator (moved out of centered inner container) -->
+			<div class="container_04" aria-hidden="true">
+			  <div class="scrollbar-text_04"><span>scroll</span></div>
+			  <div class="scrollbar_04"></div>
+			</div>
+		</header>
+		<main>
+			<!-- content placeholder -->
+		</main>
+
+				<!-- image slides: one image per slide, revealed on scroll -->
+				<section class="slide img-slot" id="kaory">
+					<a href="kaory.html" class="slide-link">
+						<img src="images/kaory1.png" alt="kaory1">
+					</a>
+					<!-- additional KAORY layers: fill under main image, stroke above -->
+					<img class="kaory-layer fill" src="images/kaory_fill.png" alt="kaory_fill">
+					<img class="kaory-layer stroke" src="images/kaory_stroke.png" alt="kaory_stroke">
+				</section>
+
+				<section class="slide img-slot" id="omutsu">
+					<a href="omutsu.html" class="slide-link">
+						<img src="images/omutsu1.png" alt="omutsu1">
+					</a>
+					<!-- additional OMUTSU layers: fill under main image, stroke above -->
+					<img class="omutsu-layer fill" src="images/omutsu_fill.png" alt="omutsu_fill">
+					<img class="omutsu-layer stroke" src="images/omutsu_stroke.png" alt="omutsu_stroke">
+				</section>
+
+				<section class="slide img-slot" id="tamakoro">
+					<a href="tamakoro.html" class="slide-link">
+						<img src="images/tamakoro1.png" alt="tamakoro1">
+					</a>
+					<!-- additional TAMAKORO layers: fill under main image, stroke above -->
+					<img class="tamakoro-layer fill" src="images/tamakoro_fill.png" alt="tamakoro_fill">
+					<img class="tamakoro-layer stroke" src="images/tamakoro_stroke.png" alt="tamakoro_stroke">
+				</section>
+
+				<section class="slide img-slot" id="missoin">
+					<a href="missoin.html" class="slide-link">
+						<img src="images/missoin1.png" alt="missoin1">
+					</a>
+					<!-- additional MISSOIN layers: fill under main image, stroke above -->
+					<img class="missoin-layer fill" src="images/missoin_fill.png" alt="missoin_fill">
+					<img class="missoin-layer stroke" src="images/missoin_stroke.png" alt="missoin_stroke">
+				</section>
+
+				<section class="slide img-slot" id="mogra">
+					<a href="mogra.html" class="slide-link">
+						<img src="images/mogra1.png" alt="mogra1">
+					</a>
+					<!-- additional MOGRA layers: fill under main image, stroke above -->
+					<img class="mogra-layer fill" src="images/mogra_fill.png" alt="mogra_fill">
+					<img class="mogra-layer stroke" src="images/mogra_stroke.png" alt="mogra_stroke">
+				</section>
+
+				<section class="slide img-slot" id="rapuntwel">
+					<a href="rapuntwel.html" class="slide-link">
+						<img src="images/rapuntwel1.jpg" alt="rapuntwel1">
+					</a>
+					<!-- additional RAPUNTWEL layers: fill under main image, stroke above -->
+					<img class="rapuntwel-layer fill" src="images/rapuntwel_fill.png" alt="rapuntwel_fill">
+					<img class="rapuntwel-layer stroke" src="images/rapuntwel_stroke.png" alt="rapuntwel_stroke">
+				</section>
+
+				<section class="slide img-slot" id="rav">
+					<a href="rav.html" class="slide-link">
+						<img src="images/rav1.png" alt="rav1">
+					</a>
+					<!-- additional RAV layers: fill under main image, stroke above -->
+					<img class="rav-layer fill" src="images/rav_fill.png" alt="rav_fill">
+					<img class="rav-layer stroke" src="images/rav_stroke.png" alt="rav_stroke">
+				</section>
+
+				<!-- CAP5 slide (追加) -->
+				<section class="slide img-slot" id="cap5">
+					<img src="images/cap5.JPG" alt="cap5">
+					<!-- label: 津江 勇作 -->
+					<div class="cap5-label cap5-meta">津江 勇作</div>
+					<div class="cap5-birth cap5-meta">2000年7月8日生まれ</div>
+					<div class="cap5-place cap5-meta">京都府宇治市出身</div>
+					<div class="cap5-education cap5-meta">東京都立大学 システムデザイン研究科 インダストリアルアート学域 修了（予定）</div>
+					<div class="cap5-desc cap5-meta">幅広くデジタルに関するものづくりに取り組んでいます。</div>
+					<div class="cap5-mission cap5-meta">デジタルを用いて、人々の感情や行動に影響を与えるものづくりを目指します。</div>
+				</section>
+
+		<script src="scripts/adjustRows.js" defer></script>
+		<script src="scripts/scrollReveal.js" defer></script>
+		<script src="scripts/menu.js" defer></script>
+	</body>
+</html>

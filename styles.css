@@ -1,0 +1,622 @@
+/* Simplified stylesheet */
+
+/* Reset + base */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+
+/* Load local Noto Sans JP Variable font from workspace fonts folder */
+@font-face {
+  font-family: 'Noto Sans JP Variable';
+  src: url('./fonts/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* smooth in-page scrolling for nav anchors */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans JP Variable', Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #f3f3f3;
+  background: #292929; /* dark by default; hero overrides to white */
+  min-height: 100vh;
+  transition: background-color 1200ms linear, color 700ms ease;
+}
+
+/* overlay used for smooth fade between hero and other slides */
+#bg-overlay {
+  position: fixed; inset: 0; background: #292929; pointer-events: none;
+  opacity: 0; transition: opacity 1200ms linear; z-index: 0;
+}
+
+/* Hero (first screen) */
+.hero-header {
+  height: 100vh; display: grid; place-items: center; width: 100%;
+  background: #ffffff; color: #0f172a;
+  position: relative; /* allow absolutely-positioned children to anchor to header */
+}
+.hero-inner { text-align: center; transition: transform .7s, opacity .7s; }
+
+/* hero thumbnail */
+.hero-thumb { display: block; max-width: 60vw; height: auto; }
+
+/* Scroll-down indicator (black) for hero */
+.container_04 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 6vh; /* moved lower within the header */
+  height: 140px;
+  width: auto;
+  pointer-events: none;
+  z-index: 90;
+}
+
+.scrollbar-text_04 {
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  padding: 6px 8px 80px;
+  color: #000;
+  font-size: 12px;
+  font-family: serif;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  writing-mode: vertical-lr;
+  left: 50%;
+  /* nudge the label slightly upward */
+  transform: translateX(-50%) translateY(-3vh);
+}
+
+.scrollbar_04 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1px;
+}
+
+.scrollbar_04::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  height: 90px;
+  background: #000;
+}
+
+.scrollbar_04::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000;
+  animation: circlemove 2.6s ease-in-out infinite,
+    cirlemovehide 2.6s ease-out infinite;
+}
+
+@keyframes circlemove {
+  0% { bottom: 80px; }
+  100% { bottom: 0px; }
+}
+
+@keyframes cirlemovehide {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  80% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* Top navigation (minimal) */
+.top-nav { position: fixed; top: 7vh; right: 5vw; z-index: 80; display: flex; gap: 10px; align-items: center; }
+.top-nav {
+  --nav-color: #000000; /* default (hero) */
+}
+.top-nav a {
+  color: var(--nav-color);
+  text-decoration: none; opacity: .95;
+  font-size: clamp(1rem, 1.5vw, 1.7rem); /* responsive, no px */
+  padding: clamp(0.4rem, 0.9vw, 0.8rem) clamp(0.6rem, 1.2vw, 1rem);
+  font-weight: 100;
+  letter-spacing: 0.5vw;
+}
+/* after hero (slides) we show nav links as white; JS toggles `body.show-thumb2` on slide 2+ */
+body.show-thumb2 .top-nav { --nav-color: #ffffff; }
+
+/* Hide portrait-only menu by default (prevent unstyled list in landscape) */
+.menu { display: none; }
+
+/* Render the separator spans as vertical lines instead of '|' character */
+.top-nav .sep {
+  color: transparent; /* hide text fallback */
+  display: inline-block;
+  width: 0.12rem; /* thin line using rem */
+  height: 1.4em; /* slightly longer */
+  background: var(--nav-color);
+  margin: 0 clamp(0.4rem, 0.9vw, 0.8rem);
+  pointer-events: none;
+}
+
+/* Main content */
+main { width: min(900px, 92vw); margin: 0 auto; padding: 48px; }
+
+@media (max-width: 720px) { .top-nav { display: none; } }
+
+/* Image slides
+   - single image per slide
+   - image top-left at (45vw, 25vh), width 50vw so right edge ≈ 95vw
+*/
+.img-slot { position: relative; height: 100vh; }
+.img-slot img {
+  position: absolute; left: 45vw; top: 30vh; width: 50vw; height: auto;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .6s ease, transform .6s ease; display: block;
+}
+.img-slot.visible img { opacity: 1; transform: none; }
+
+/* Generic layered-image rules
+   Each slide may include image assets named with a "-layer" class token
+   (e.g. "kaory-layer fill", "kaory-layer stroke"). We match those
+   with an attribute substring selector and use CSS variables on the
+   slide container to control per-slide positioning and width.
+*/
+.img-slot [class*="-layer"]{
+  position: absolute;
+  left: var(--layer-left, 10vw);
+  top: var(--layer-top, 50vh);
+  width: var(--layer-width, 50vw);
+  height: auto;
+  display: block;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .6s ease, transform .6s ease;
+  pointer-events: none;
+}
+.img-slot [class*="-layer"].fill { z-index: 5; }
+.img-slot > img:first-of-type { z-index: 10; }
+.img-slot [class*="-layer"].stroke { z-index: 30; }
+.img-slot.visible [class*="-layer"] { opacity: 1; transform: none; }
+
+/* Hover: enlarge and shift main slide image 5vw left while visible */
+.img-slot > img:first-of-type {
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  will-change: transform;
+  transform-origin: right center; /* scale so expansion goes left */
+}
+.img-slot.visible > img:first-of-type:hover {
+  transform: scale(1.06); /* enlarge anchored at right, so it grows left */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* ensure anchors and their images inside slides receive pointer events
+   and show pointer cursor to indicate clickability */
+.img-slot .slide-link,
+.img-slot .slide-link img {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* KAORY: ensure main image inside the anchor is stacked above the fill layer
+   and receives the same right-anchored hover scale as other slides */
+.img-slot#kaory .slide-link img {
+  z-index: 10; /* above .fill (z-index:5) */
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  will-change: transform;
+  transform-origin: right center;
+}
+.img-slot#kaory.visible .slide-link img:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Anchor-wrapped slide images: apply same hover scale as KAORY so
+   slides like OMUTSU enlarge leftwards on hover when visible */
+.img-slot .slide-link img {
+  z-index: 10; /* ensure above fill layers */
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  will-change: transform;
+  transform-origin: right center;
+}
+.img-slot.visible .slide-link img:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Per-slide variable overrides */
+#kaory    { --layer-left: 10vw; --layer-top: 67.5vh; --layer-width: 55vw; }
+#omutsu   { --layer-left: 10vw; --layer-top: 60vh; --layer-width: 65vw; }
+#tamakoro { --layer-left: 10vw; --layer-top: 75vh; --layer-width: 83vw; }
+#missoin  { --layer-left: 10vw; --layer-top: 60vh; --layer-width: 50vw; }
+#mogra    { --layer-left: 10vw; --layer-top: 65vh; --layer-width: 65vw; }
+#rapuntwel{ --layer-left: 10vw; --layer-top: 75vh; --layer-width: 80vw; }
+#rav      { --layer-left: 10vw; --layer-top: 65vh; --layer-width: 70vw; }
+
+/* Ensure KAORY fill aligns exactly with its stroke and main image positioning
+   (force same left/top/width and keep intended stacking: stroke above main above fill) */
+.img-slot#kaory .kaory-layer.fill,
+.img-slot#kaory .kaory-layer.stroke {
+  left: var(--layer-left, 10vw) !important;
+  top: var(--layer-top, 50vh) !important;
+  width: var(--layer-width, 50vw) !important;
+  transform: none !important;
+}
+.img-slot#kaory .kaory-layer.fill { z-index: 5 !important; }
+.img-slot#kaory > img:first-of-type { z-index: 10 !important; }
+.img-slot#kaory .kaory-layer.stroke { z-index: 30 !important; }
+
+/* Force other slides' fill/stroke to use the per-slide variables on landscape
+   so fill and stroke perfectly overlap the main image (left/top/width + no transform). */
+.img-slot#omutsu .omutsu-layer.fill,
+.img-slot#omutsu .omutsu-layer.stroke,
+.img-slot#tamakoro .tamakoro-layer.fill,
+.img-slot#tamakoro .tamakoro-layer.stroke,
+.img-slot#missoin .missoin-layer.fill,
+.img-slot#missoin .missoin-layer.stroke,
+.img-slot#mogra .mogra-layer.fill,
+.img-slot#mogra .mogra-layer.stroke,
+.img-slot#rapuntwel .rapuntwel-layer.fill,
+.img-slot#rapuntwel .rapuntwel-layer.stroke,
+.img-slot#rav .rav-layer.fill,
+.img-slot#rav .rav-layer.stroke {
+  left: var(--layer-left, 10vw) !important;
+  top: var(--layer-top, 50vh) !important;
+  width: var(--layer-width, 50vw) !important;
+  transform: none !important;
+}
+
+.img-slot#omutsu .omutsu-layer.fill { z-index: 5 !important; }
+.img-slot#omutsu > img:first-of-type { z-index: 10 !important; }
+.img-slot#omutsu .omutsu-layer.stroke { z-index: 30 !important; }
+
+.img-slot#tamakoro .tamakoro-layer.fill { z-index: 5 !important; }
+.img-slot#tamakoro > img:first-of-type { z-index: 10 !important; }
+.img-slot#tamakoro .tamakoro-layer.stroke { z-index: 30 !important; }
+
+.img-slot#missoin .missoin-layer.fill { z-index: 5 !important; }
+.img-slot#missoin > img:first-of-type { z-index: 10 !important; }
+.img-slot#missoin .missoin-layer.stroke { z-index: 30 !important; }
+
+.img-slot#mogra .mogra-layer.fill { z-index: 5 !important; }
+.img-slot#mogra > img:first-of-type { z-index: 10 !important; }
+.img-slot#mogra .mogra-layer.stroke { z-index: 30 !important; }
+
+.img-slot#rapuntwel .rapuntwel-layer.fill { z-index: 5 !important; }
+.img-slot#rapuntwel > img:first-of-type { z-index: 10 !important; }
+.img-slot#rapuntwel .rapuntwel-layer.stroke { z-index: 30 !important; }
+
+.img-slot#rav .rav-layer.fill { z-index: 5 !important; }
+.img-slot#rav > img:first-of-type { z-index: 10 !important; }
+.img-slot#rav .rav-layer.stroke { z-index: 30 !important; }
+
+/* CAP5 main image override: left 10vw, top 35vh, right X=50vw -> width 40vw */
+#cap5 > img { left: 10vw; top: 35vh; width: 40vw; }
+
+/* Disable hover scale for cap5 slide's main image (apply globally) */
+.img-slot#cap5 > img:first-of-type { transition: none; }
+.img-slot#cap5.visible > img:first-of-type:hover,
+.img-slot#cap5 > img:hover,
+#cap5.visible > img:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+/* CAP5 shared metadata styling
+   Consolidated common properties for the cap5 text lines. Individual
+   items only override `top`, `font-size`, and (optionally) `width`.
+*/
+#cap5 .cap5-meta {
+  position: absolute;
+  left: 55vw;
+  width: auto;
+  color: #f3f3f3;
+  /* unified typography for cap5 metadata */
+  font-size: clamp(0.7rem, 0.95vw, 0.95rem);
+  font-weight: 300;
+  z-index: 60;
+  line-height: 1.1;
+  display: inline-flex; align-items: center; justify-content: flex-start;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: visible;
+  letter-spacing: 0.125vw;
+}
+
+/* per-item overrides (preserve original positions/sizes) */
+#cap5 .cap5-label { top: 38vh; width: 10vw; font-size: 2.25vw; letter-spacing: 1vw; }
+#cap5 .cap5-birth { top: 48vh; }
+#cap5 .cap5-place { top: 52vh; }
+#cap5 .cap5-education { top: 56vh; }
+#cap5 .cap5-desc { top: 68vh; }
+#cap5 .cap5-mission { top: 72vh; }
+
+/* attach meta base class to existing elements in HTML (keeps selectors simple)
+   Note: HTML elements already exist; this CSS structure preserves visual
+   behavior while reducing duplication in the stylesheet.
+*/
+
+/* thumb2: show on all slides (except hero) at top-left (2vw,1vh) to right x=20vw */
+
+/* fixed thumb2 shown after hero */
+#thumb2-fixed {
+  position: fixed; left: 5vw; top: 5vh; width: 18vw; height: auto; z-index: 9999;
+  display: none; pointer-events: none; opacity: 0; transition: opacity .4s ease;
+}
+/* when thumb2 is shown, allow pointer events so it can be clicked */
+body.show-thumb2 #thumb2-fixed { display: block; opacity: 1; pointer-events: auto; cursor: pointer; }
+
+/* Portrait-specific slide layout overrides for index page
+   - main slide image (~1.png) becomes full-bleed and centered horizontally
+   - fill/stroke layer images (~fill.png/~stroke.png) are centered and placed
+     from the top at 65vw, with width 80vw */
+@media (orientation: portrait) {
+  /* target both direct img children and images inside .slide-link (some slides wrap img in anchor) */
+  .img-slot > img:first-of-type,
+  .img-slot .slide-link > img:first-of-type {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    transform-origin: center center !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    top: 50% !important; /* vertically center */
+  }
+
+  .img-slot [class*="-layer"] {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    /* center vertically with main image plus optional per-slide adjustment */
+    top: calc(50% + var(--layer-top-adjust, 0vh)) !important;
+    width: 80vw !important;
+    height: auto !important;
+  }
+
+  /* Centralized per-slide portrait layer vertical offsets
+     Adjust the --layer-top-adjust value (vh) per slide to move fill/stroke layers down. */
+  #kaory    { --layer-top-adjust: 21vh; }
+  #omutsu   { --layer-top-adjust: 20vh; }
+  #tamakoro { --layer-top-adjust: 20vh; }
+  #missoin  { --layer-top-adjust: 16vh; }
+  #mogra    { --layer-top-adjust: 16vh; }
+  #rapuntwel{ --layer-top-adjust: 21vh; }
+  #rav      { --layer-top-adjust: 19vh; }
+
+  /* Portrait: force KAORY fill/stroke layers to center like other slides
+     (overrides earlier desktop-specific !important values) */
+  .img-slot#kaory .kaory-layer.fill,
+  .img-slot#kaory .kaory-layer.stroke {
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    top: calc(50% + var(--layer-top-adjust, 0vh)) !important;
+    width: 80vw !important;
+  }
+
+  /* Portrait: ensure other slides' fill/stroke layers are centered and stacked correctly
+     So that .fill sits under the main image and .stroke sits above it. */
+  .img-slot#tamakoro .tamakoro-layer.fill,
+  .img-slot#tamakoro .tamakoro-layer.stroke,
+  .img-slot#omutsu .omutsu-layer.fill,
+  .img-slot#omutsu .omutsu-layer.stroke,
+  .img-slot#missoin .missoin-layer.fill,
+  .img-slot#missoin .missoin-layer.stroke,
+  .img-slot#mogra .mogra-layer.fill,
+  .img-slot#mogra .mogra-layer.stroke,
+  .img-slot#rapuntwel .rapuntwel-layer.fill,
+  .img-slot#rapuntwel .rapuntwel-layer.stroke,
+  .img-slot#rav .rav-layer.fill,
+  .img-slot#rav .rav-layer.stroke {
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    top: calc(50% + var(--layer-top-adjust, 0vh)) !important;
+    width: 80vw !important;
+  }
+
+  /* enforce stacking order: fill (below main) < main < stroke (above main) */
+  .img-slot#tamakoro .tamakoro-layer.fill { z-index: 5 !important; }
+  .img-slot#tamakoro > img:first-of-type { z-index: 10 !important; }
+  .img-slot#tamakoro .tamakoro-layer.stroke { z-index: 30 !important; }
+
+  .img-slot#omutsu .omutsu-layer.fill { z-index: 5 !important; }
+  .img-slot#omutsu > img:first-of-type { z-index: 10 !important; }
+  .img-slot#omutsu .omutsu-layer.stroke { z-index: 30 !important; }
+
+  .img-slot#missoin .missoin-layer.fill { z-index: 5 !important; }
+  .img-slot#missoin > img:first-of-type { z-index: 10 !important; }
+  .img-slot#missoin .missoin-layer.stroke { z-index: 30 !important; }
+
+  .img-slot#mogra .mogra-layer.fill { z-index: 5 !important; }
+  .img-slot#mogra > img:first-of-type { z-index: 10 !important; }
+  .img-slot#mogra .mogra-layer.stroke { z-index: 30 !important; }
+
+  .img-slot#rapuntwel .rapuntwel-layer.fill { z-index: 5 !important; }
+  .img-slot#rapuntwel > img:first-of-type { z-index: 10 !important; }
+  .img-slot#rapuntwel .rapuntwel-layer.stroke { z-index: 30 !important; }
+
+  .img-slot#rav .rav-layer.fill { z-index: 5 !important; }
+  .img-slot#rav > img:first-of-type { z-index: 10 !important; }
+  .img-slot#rav .rav-layer.stroke { z-index: 30 !important; }
+
+  /* reduce thumb2 size to half in portrait for index */
+  #thumb2-fixed { width: 30vw !important; }
+  #thumb2-fixed img { width: 100% !important; height: auto !important; display: block !important; }
+
+  /* Ensure hover scale preserves centering by including translate in transform */
+  .img-slot.visible > img:first-of-type:hover,
+  .img-slot.visible .slide-link > img:first-of-type:hover {
+    transform: translate(-50%, -50%) scale(1.06) !important;
+  }
+
+  /* cap5: make main image full-width, horizontally centered, and pinned to the top */
+  /* For cap5, place the image in-flow so subsequent text sits below it */
+  .img-slot#cap5 > img,
+  #cap5 > img {
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+    top: auto !important;
+    display: block !important;
+    /* remove image-top margin; section padding will push content below thumb2 */
+    margin: 0 auto 0 !important;
+    width: 100vw !important; /* full-bleed image on portrait */
+    max-width: 100vw !important;
+    z-index: 1 !important; /* keep image below thumb2 (thumb2 z-index:9999) */
+    height: auto !important;
+  }
+
+  /* Portrait: prevent cap5 from shifting on hover by disabling any transform */
+  .img-slot#cap5.visible > img:first-of-type:hover,
+  .img-slot#cap5 > img:hover,
+  #cap5.visible > img:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    cursor: default !important;
+  }
+
+  /* Portrait: move cap5 metadata out of absolute positioning so it sits under the image
+     with 5vw gutters (90vw content width) and small vertical gap. */
+  #cap5 .cap5-meta {
+    position: static !important;
+    left: auto !important;
+    width: 90vw !important;
+    margin: 0.6rem auto !important; /* small gap between lines */
+    white-space: normal !important; /* allow wrapping */
+    display: block !important;      /* stack naturally and enable wrapping */
+    text-align: left !important;    /* preserve left-aligned appearance */
+    align-items: stretch !important;
+  }
+
+  /* label inherits same flow width */
+  #cap5 .cap5-label {
+    position: static !important;
+    width: 90vw !important;
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.8rem !important;
+    left: auto !important;
+    /* make the name ~2x larger in portrait for emphasis */
+    font-size: calc(2.25vw * 2) !important;
+    font-weight: 600 !important;
+  }
+  /* ensure the section itself is padded so image and content start below thumb2 */
+  #cap5 { padding-top: calc(5vh + 15vw + 1rem) !important; }
+
+  /* increase vertical spacing for all meta lines in portrait */
+  #cap5 .cap5-meta {
+    margin: 0.9rem auto !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Portrait-only: right-side burger/menu (avoids thumb2 at left)
+     Styles are intentionally scoped to portrait to avoid desktop conflicts. */
+  .top-nav { display: none !important; }
+
+  .burger {
+    position: fixed;
+    right: 5vw;
+    top: 5vh;
+    width: 42px;
+    height: 42px;
+    z-index: 10003; /* above circle/thumb2/menu */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .burger .x, .burger .y, .burger .z {
+    position: absolute;
+    /* center the bar horizontally inside the burger so rotations meet at center */
+    left: 50% !important;
+    right: auto !important;
+    width: 26px !important;
+    transform: translateX(-50%) !important;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transform-origin: center center !important;
+    transition: transform 180ms ease, opacity 120ms ease, background 120ms ease;
+  }
+  .burger .x { top: 10px; }
+  .burger .y { top: 19px; }
+  .burger .z { top: 28px; }
+
+  /* circle backdrop used for full-screen reveal */
+  .circle {
+    position: fixed;
+    right: 5vw;
+    top: 5vh;
+    width: 0; height: 0;
+    border-radius: 50%;
+    background: #fff;
+    z-index: 10000;
+    transition: all 360ms cubic-bezier(.2,.9,.2,1);
+    pointer-events: none;
+  }
+  .circle.expand { width: 2400px; height: 2400px; right: -1080px; top: -1120px; }
+
+  .menu {
+    position: fixed;
+    right: 0; top: 0;
+    width: 320px; height: 100vh;
+    z-index: 10002;
+    pointer-events: none;
+    display: block !important; /* ensure menu is available in portrait */
+    visibility: hidden; /* hide by default; show only when .open to avoid flashes */
+  }
+  .menu ul { list-style: none; padding: 0; margin: 0; }
+  .menu li {
+    width: 320px; text-align: center; opacity: 0; font-size: 0; position: absolute; left: 0;
+    transition: all 120ms cubic-bezier(.2,.9,.2,1);
+  }
+  .menu li a { display: block; padding: 24px 0; color: #31558a; text-transform: uppercase; text-decoration: none; letter-spacing: 2px; }
+
+  /* animate class reveals items in sequence */
+  .menu li.animate { font-size: 20px; opacity: 1; }
+  .menu li.animate:nth-of-type(1){ top:120px; transition-delay: 0s; }
+  .menu li.animate:nth-of-type(2){ top:190px; transition-delay: 0.03s; }
+  .menu li.animate:nth-of-type(3){ top:260px; transition-delay: 0.06s; }
+  .menu li.animate:nth-of-type(4){ top:330px; transition-delay: 0.09s; }
+
+  /* When burger.open apply flipped (mirrored) rotations for a reversed X */
+  /* move bars to burger center and rotate so the cross intersects at center */
+  .burger.open .x { transform: translate(-50%, 11px) rotate(45deg) !important; }
+  .burger.open .z { transform: translate(-50%, -7px) rotate(-45deg) !important; }
+  .burger.open .y { opacity: 0 !important; }
+
+  /* Accessibility: make menu links clickable only when open */
+  .menu.open { pointer-events: auto; visibility: visible; }
+  .menu.open li { pointer-events: auto; }
+
+  /* moved .button009 styles into each page-specific CSS file per request */
+
+  /* On the first slide (hero) -- body NOT having .show-thumb2 --
+     make the burger lines dark so it matches #292929. Keep this when open. */
+  body:not(.show-thumb2) .burger .x,
+  body:not(.show-thumb2) .burger .y,
+  body:not(.show-thumb2) .burger .z,
+  body:not(.show-thumb2) .burger.open .x,
+  body:not(.show-thumb2) .burger.open .y,
+  body:not(.show-thumb2) .burger.open .z {
+    background: #292929 !important;
+  }
+
+  /* Ensure burger lines are visible and dark when menu is opened (regardless of slide) */
+  .burger.open .x,
+  .burger.open .y,
+  .burger.open .z {
+    background: #292929 !important;
+    z-index: 10004 !important;
+  }
+
+  /* Increase spacing between specific lines for clearer separation */
+  #cap5 .cap5-label + .cap5-birth,
+  #cap5 .cap5-education + .cap5-desc {
+    margin-top: 1.6rem !important;
+  }
+}

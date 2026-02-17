@@ -1,0 +1,108 @@
+/* Styles specific to rav.html (derived from kaory.css) */
+
+#thumb2-fixed {
+  position: fixed;
+  left: 5vw;
+  top: 5vh;
+  width: 18vw;
+  height: auto;
+  z-index: 9999;
+  display: block;
+  pointer-events: auto;
+  opacity: 1;
+  cursor: pointer;
+}
+
+#thumb2-fixed img { display: block; width: 100%; height: auto; }
+
+:root {
+  --noto-variable-stack: 'Noto Sans JP Variable', 'Noto Sans JP', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --rav-year-wght: 100;
+  --rav-number-wght: 300;
+  --rav-type-wght: 100;
+  --rav-desc-wght: 300;
+}
+
+body { font-family: var(--noto-variable-stack); }
+
+main {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  padding: 0 1.5rem 1.5rem;
+  color: var(--text-color, #f3f3f3);
+}
+
+main img { width: 100vw; max-width: 100vw; height: auto; display: block; margin: 0; position: relative; left: 0; z-index: 1; }
+
+.rav-labels { position: relative; display: inline-block; padding-left: 10vw; margin-top: 8vh; }
+.rav-year { --rav-year-size: clamp(0.8rem, 1.4vw, 1.1rem); --rav-year-color: #d6d6d6; font-size: var(--rav-year-size) !important; color: var(--rav-year-color) !important; text-align: left !important; margin: 0.5rem 0 0 !important; padding: 0.25rem 0 !important; letter-spacing: 0.35vw !important; font-weight: 100; }
+
+.rav-number, .rav-type, .rav-desc { text-align: left !important; margin: 0 !important; padding: 0 !important; position: absolute !important; white-space: nowrap !important; overflow: visible !important; font-weight: lighter !important; }
+.rav-number { --rav-number-size: clamp(1rem, 3vw, 1.6rem); --rav-number-color: #ffffff; font-size: var(--rav-number-size) !important; color: var(--rav-number-color) !important; letter-spacing: 0.5vw !important; left: calc(100% + 1vw) !important; top: 3rem !important; }
+.rav-year { font-variation-settings: 'wght' var(--rav-year-wght); font-weight: var(--rav-year-wght); }
+.rav-number { font-variation-settings: 'wght' var(--rav-number-wght); font-weight: var(--rav-number-wght); }
+.rav-type { font-variation-settings: 'wght' var(--rav-type-wght); font-weight: var(--rav-type-wght); }
+.rav-desc { font-variation-settings: 'wght' var(--rav-desc-wght); font-weight: var(--rav-desc-wght); }
+.rav-year, .rav-number, .rav-type, .rav-desc { font-family: var(--noto-variable-stack) !important; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.rav-type { --rav-type-size: clamp(0.8rem, 1.4vw, 1.1rem); --rav-type-color: #d6d6d6; font-size: var(--rav-type-size) !important; color: var(--rav-type-color) !important; letter-spacing: 0.35vw !important; left: calc(100% + 40vw) !important; top: 0.5rem !important; }
+.rav-desc { --rav-desc-size: clamp(1rem, 3vw, 1.6rem); --rav-desc-color: #ffffff; font-size: var(--rav-desc-size) !important; color: var(--rav-desc-color) !important; letter-spacing: 0.5vw !important; left: calc(100% + 45vw) !important; top: 3rem !important; font-weight: 100; }
+
+:root { --rav-description-width: 80vw; --rav-description-font-size: clamp(1rem, calc(var(--rav-description-width) * 0.024), 1.35rem); --rav-description-color: #d6d6d6; --rav-description-line-height: 1.72; }
+.rav-description { box-sizing: border-box; max-width: 100%; margin-left: 0; margin-top: 15vh; margin-right: 0; margin-bottom: 5vh; color: var(--rav-description-color); font-size: var(--rav-description-font-size); line-height: var(--rav-description-line-height); z-index: 2; letter-spacing: 0.2vw; font-weight: 100; }
+
+.responsive-video { max-width: 100%; margin-left: 0; margin-right: 0; margin-top: 10vh; position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
+.responsive-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+.rav-gallery { display: flex; flex-direction: column; gap: 1rem; max-width: 100%; margin-left: 0; margin-right: 0; margin-top: 1.25rem; }
+.rav-gallery img { display: block; width: 100%; max-width: 100%; height: auto; object-fit: cover; border-radius: 4px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+
+@media (max-width: 720px) { .rav-gallery { gap: 0.6rem; max-width: 100%; margin-left: 0; margin-right: 0; } .rav-gallery img { width: 100%; max-width: none; } }
+
+.rav-content { max-width: var(--rav-description-width); margin-left: 10vw; margin-right: 10vw; }
+@media (max-width: 720px) { .rav-content { max-width: 88vw; margin-left: 6vw; margin-right: 6vw; } }
+
+@media (orientation: portrait), (max-width: 720px) {
+  .rav-labels { display: flex; flex-direction: column; align-items: flex-start; padding-left: 6vw; margin-top: 6vh; gap: 0.2rem; }
+  .rav-year, .rav-number, .rav-type, .rav-desc { position: static !important; left: auto !important; top: auto !important; white-space: normal !important; overflow: visible !important; margin: 0.3rem 0 !important; padding: 0 !important; }
+  .rav-year, .rav-type { letter-spacing: 0.7vw !important; }
+  .rav-number, .rav-desc { letter-spacing: 1.0vw !important; }
+  .rav-year, .rav-type { margin-bottom: 0.05rem !important; }
+  .rav-number, .rav-desc { margin-top: 0 !important; }
+  .rav-type { margin-top: 2rem !important; }
+  .rav-desc { margin-top: 0.35rem !important; }
+  .rav-year { order: 1; }
+  .rav-number { order: 2; }
+  .rav-type { order: 3; }
+  .rav-desc { order: 4; }
+  .rav-number, .rav-desc { font-size: clamp(1.05rem, 4.vw, 2rem) !important; }
+  .rav-type, .rav-year { font-size: clamp(0.9rem, 3.2vw, 1.25rem) !important; }
+  .rav-description { margin-top: 2.5rem; margin-left: 0; margin-right: 0; max-width: 88vw; letter-spacing: 0.5vw; }
+  .responsive-video { margin-left: 0; margin-right: 0; max-width: 88vw; }
+  main { padding-left: 0 !important; padding-right: 0 !important; }
+  main > img { width: 100vw !important; max-width: 100vw !important; margin-left: 0 !important; left: 0 !important; display: block; }
+  /* match index portrait thumb2 size */
+  #thumb2-fixed { width: 30vw !important; }
+}
+
+/* 009 BACK button (page-local) */
+.button009 { text-align: center; margin: 2.5rem 0 3.5rem; }
+.button009 a {
+  background: #eee;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 240px;
+  padding: 10px 25px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  text-decoration: none;
+  letter-spacing: 0.1vw;
+}
+.button009 a:hover {
+  background: #313131;
+  color: #FFF;
+  text-decoration: none;
+}

@@ -1,0 +1,113 @@
+/* Styles specific to tamakoro.html (based on kaory.css) */
+
+#thumb2-fixed {
+  position: fixed;
+/* 009 BACK button (page-local) */
+.button009 { text-align: center; margin: 2.5rem 0 3.5rem; }
+.button009 a {
+  background: #eee;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 240px;
+  padding: 10px 25px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  text-decoration: none;
+  letter-spacing: 0.1vw;
+}
+.button009 a:hover {
+  background: #313131;
+  color: #FFF;
+  text-decoration: none;
+}
+  left: 5vw;
+  top: 5vh;
+  width: 18vw;
+  height: auto;
+  z-index: 9999;
+  display: block;
+  pointer-events: auto;
+  opacity: 1;
+  cursor: pointer;
+}
+
+#thumb2-fixed img { display: block; width: 100%; height: auto; }
+
+:root {
+  --noto-variable-stack: 'Noto Sans JP Variable', 'Noto Sans JP', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --tamakoro-year-wght: 100;
+  --tamakoro-number-wght: 300;
+  --tamakoro-type-wght: 100;
+  --tamakoro-desc-wght: 300;
+}
+
+body { font-family: var(--noto-variable-stack); }
+
+main {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  padding: 0 1.5rem 1.5rem;
+  color: var(--text-color, #f3f3f3);
+}
+
+main img { width: 100vw; max-width: 100vw; height: auto; display: block; margin: 0; position: relative; left: 0; z-index: 1; }
+
+.tamakoro-labels { position: relative; display: inline-block; padding-left: 10vw; margin-top: 8vh; }
+.tamakoro-year { --tamakoro-year-size: clamp(0.8rem, 1.4vw, 1.1rem); --tamakoro-year-color: #d6d6d6; font-size: var(--tamakoro-year-size) !important; color: var(--tamakoro-year-color) !important; text-align: left !important; margin: 0.5rem 0 0 !important; padding: 0.25rem 0 !important; letter-spacing: 0.35vw !important; font-weight: 100; }
+
+.tamakoro-number, .tamakoro-type, .tamakoro-desc { text-align: left !important; margin: 0 !important; padding: 0 !important; position: absolute !important; white-space: nowrap !important; overflow: visible !important; font-weight: lighter !important; }
+.tamakoro-number { --tamakoro-number-size: clamp(1rem, 3vw, 1.6rem); --tamakoro-number-color: #ffffff; font-size: var(--tamakoro-number-size) !important; color: var(--tamakoro-number-color) !important; letter-spacing: 0.5vw !important; left: calc(100% + 1vw) !important; top: 3rem !important; }
+.tamakoro-year { font-variation-settings: 'wght' var(--tamakoro-year-wght); font-weight: var(--tamakoro-year-wght); }
+.tamakoro-number { font-variation-settings: 'wght' var(--tamakoro-number-wght); font-weight: var(--tamakoro-number-wght); }
+.tamakoro-type { font-variation-settings: 'wght' var(--tamakoro-type-wght); font-weight: var(--tamakoro-type-wght); }
+.tamakoro-desc { font-variation-settings: 'wght' var(--tamakoro-desc-wght); font-weight: var(--tamakoro-desc-wght); }
+.tamakoro-year, .tamakoro-number, .tamakoro-type, .tamakoro-desc { font-family: var(--noto-variable-stack) !important; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.tamakoro-type { --tamakoro-type-size: clamp(0.8rem, 1.4vw, 1.1rem); --tamakoro-type-color: #d6d6d6; font-size: var(--tamakoro-type-size) !important; color: var(--tamakoro-type-color) !important; letter-spacing: 0.35vw !important; left: calc(100% + 40vw) !important; top: 0.5rem !important; }
+.tamakoro-desc { --tamakoro-desc-size: clamp(1rem, 3vw, 1.6rem); --tamakoro-desc-color: #ffffff; font-size: var(--tamakoro-desc-size) !important; color: var(--tamakoro-desc-color) !important; letter-spacing: 0.5vw !important; left: calc(100% + 45vw) !important; top: 3rem !important; font-weight: 100; }
+
+:root { --tamakoro-description-width: 80vw; --tamakoro-description-font-size: clamp(1rem, calc(var(--tamakoro-description-width) * 0.024), 1.35rem); --tamakoro-description-color: #d6d6d6; --tamakoro-description-line-height: 1.72; }
+.tamakoro-description { box-sizing: border-box; max-width: 100%; margin-left: 0; margin-top: 15vh; margin-right: 0; margin-bottom: 5vh; color: var(--tamakoro-description-color); font-size: var(--tamakoro-description-font-size); line-height: var(--tamakoro-description-line-height); z-index: 2; letter-spacing: 0.2vw; font-weight: 100; }
+
+/* Ensure links inside the description appear white (including visited state) */
+.tamakoro-description a,
+.tamakoro-description a:visited {
+  color: #f3f3f3 !important;
+}
+
+.responsive-video { max-width: 100%; margin-left: 0; margin-right: 0; margin-top: 10vh; position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
+.responsive-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+.tamakoro-gallery { display: flex; flex-direction: column; gap: 1rem; max-width: 100%; margin-left: 0; margin-right: 0; margin-top: 1.25rem; }
+.tamakoro-gallery img { display: block; width: 100%; max-width: 100%; height: auto; object-fit: cover; border-radius: 4px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+
+@media (max-width: 720px) { .tamakoro-gallery { gap: 0.6rem; max-width: 100%; margin-left: 0; margin-right: 0; } .tamakoro-gallery img { width: 100%; max-width: none; } }
+
+.tamakoro-content { max-width: var(--tamakoro-description-width); margin-left: 10vw; margin-right: 10vw; }
+@media (max-width: 720px) { .tamakoro-content { max-width: 88vw; margin-left: 6vw; margin-right: 6vw; } }
+
+@media (orientation: portrait), (max-width: 720px) {
+  .tamakoro-labels { display: flex; flex-direction: column; align-items: flex-start; padding-left: 6vw; margin-top: 6vh; gap: 0.2rem; }
+  .tamakoro-year, .tamakoro-number, .tamakoro-type, .tamakoro-desc { position: static !important; left: auto !important; top: auto !important; white-space: normal !important; overflow: visible !important; margin: 0.3rem 0 !important; padding: 0 !important; }
+  .tamakoro-year, .tamakoro-type { letter-spacing: 0.7vw !important; }
+  .tamakoro-number, .tamakoro-desc { letter-spacing: 1.0vw !important; }
+  .tamakoro-year, .tamakoro-type { margin-bottom: 0.05rem !important; }
+  .tamakoro-number, .tamakoro-desc { margin-top: 0 !important; }
+  .tamakoro-type { margin-top: 2rem !important; }
+  .tamakoro-desc { margin-top: 0.35rem !important; }
+  .tamakoro-year { order: 1; }
+  .tamakoro-number { order: 2; }
+  .tamakoro-type { order: 3; }
+  .tamakoro-desc { order: 4; }
+  .tamakoro-number, .tamakoro-desc { font-size: clamp(1.05rem, 4.vw, 2rem) !important; }
+  .tamakoro-type, .tamakoro-year { font-size: clamp(0.9rem, 3.2vw, 1.25rem) !important; }
+  .tamakoro-description { margin-top: 2.5rem; margin-left: 0; margin-right: 0; max-width: 88vw; letter-spacing: 0.5vw; }
+  .responsive-video { margin-left: 0; margin-right: 0; max-width: 88vw; }
+  main { padding-left: 0 !important; padding-right: 0 !important; }
+  main > img { width: 100vw !important; max-width: 100vw !important; margin-left: 0 !important; left: 0 !important; display: block; }
+  /* match index portrait thumb2 size */
+  #thumb2-fixed { width: 30vw !important; }
+}
